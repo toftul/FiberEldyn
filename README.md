@@ -37,7 +37,7 @@ function functionName(argument1, argument2)
     
     return output1, output2
 end
-```  
+```
 Each file is independent and contains functions of a quite narrow topic. 
 2. `*.ipynb` -- notebook files. This is actually a Lab Book for the theoreticians when it comes to the numerical calculations.   
 It is very convinient because it combines: $ \LaTeX $, plots, code and comments with Markdown syntax (look [wiki](https://en.wikipedia.org/wiki/Markdown) or [markdown-cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)).
@@ -56,15 +56,3 @@ It is very convinient because it combines: $ \LaTeX $, plots, code and comments 
 * folder `refractiveIndexData` - data files for the `permittivity.jl`.
 * `polarizability.jl` - all approximations for the dipole polarizability of a spherical particle and atom. For details see the Manuscript.
 * `supportFunction.jl` - all basic support functions which julia was lacking when I was developing code. In particular, there are rewritten functions from Fortran for the spherical functions which work extreamly fast (much faster then calling python library using PyCall). 
-
-
-## About `*.ipynb` files
-
-Usually, all those notebooked are well-commented and easy to understand. I tried my best to give all the sufficent theoretical information before code blocks using $\LaTeX$ syntax. 
-
-* `benchmark_*.ipynb` - all test functions to make sure that core library works well.
-* `dipoleApprox_*.ipynb` - everything what can be calculated on particles in dipole approximation.
-* `fiberModes_*.ipynb` - everything which is connected with fiber modes: dispersion, field distributions and so on.
-* `forBinding_*.ipynb` - everything which is connected with my previous project on binding.
-* `generalMie_*.ipynb` - all calculations using generalized Mie theory.
-* `MieSphere_*.ipynb` - some calculations about Mie resonances of sphere.
