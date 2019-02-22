@@ -39,8 +39,8 @@ function functionName(argument1, argument2)
 end
 ```
 Each file is independent and contains functions of a quite narrow topic. 
-2. `*.ipynb` -- notebook files. This is actually a Lab Book for the theoreticians when it comes to the numerical calculations.   
-It is very convinient because it combines: $ \LaTeX $, plots, code and comments with Markdown syntax (look [wiki](https://en.wikipedia.org/wiki/Markdown) or [markdown-cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)).
+
+
 
 ## About `*.jl` files
 
