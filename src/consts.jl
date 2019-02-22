@@ -11,7 +11,12 @@ export
     mElectron,
     hbar,
     kBoltzmann,
-    VnumberCRITICAL
+    VnumberCRITICAL,
+    mili,
+    micro,
+    nano,
+    piko,
+    femto
 
 
 # Some physical consts in SI units
@@ -41,3 +46,11 @@ const kBoltzmann = 1.380648528e-23  # [J/K]
 # e.g. see Chin-Lin - Chen Foundations for guided-wave optics
 # p. 233
 const VnumberCRITICAL = 2.4048
+
+
+# multipliers
+const mili   = 1e-3
+const micro  = 1e-6
+const nano   = 1e-9
+const piko   = 1e-12
+const femto  = 1e-15
