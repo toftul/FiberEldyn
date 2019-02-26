@@ -118,7 +118,7 @@ function fiberDispertion(modeType, n, k, rf, epsf, epsm)
     # at first step we look for the intervals which includes a single root
     fSpace = foo.(betaSpace, n, k, rf, epsf, epsm)
     # plot f(beta) in order to understand what is happening here
-    fSpace[abs.(fSpace) .> 0.25] .= 0
+    fSpace[abs.(fSpace) .> 10] .= 0
     #println(fSpace)
     lPoints = Float64[]
     rPoints = Float64[]
