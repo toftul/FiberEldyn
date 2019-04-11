@@ -1,4 +1,4 @@
-module eldyn
+module FiberEldyn
 
 include("consts.jl")
 include("supportFunctions.jl")
