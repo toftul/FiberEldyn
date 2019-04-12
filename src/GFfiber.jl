@@ -514,22 +514,14 @@ function Gs11ijpolar(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf, nMaxModeOrder, i
     F = complex(kzmax, 0)
     
     Gsij = 0. # Green's tensor component
-    nmodes = 0 # number of considered 'n' modes
-    Gnprev = 0. # previous, it sums from 0 to nmax-1; when nmax = 0 Gnprev = 0
 
     for n = 0:nMaxModeOrder
-        Gsij += quadgk(x -> iGs11ij(x, rr, pr, zr, rs, ps, zs, 
+        integral = quadgk(x -> iGs11ij(x, rr, pr, zr, rs, ps, zs, 
                                    k, epsf, epsm, Rf, n, i, j), A, B, C, D, E, F; 
-                                   rtol=tol, maxevals=maxevals)[1]
-        rel = abs(abs(Gsij) - abs(Gnprev)) / abs(Gsij)
-        if rel < tol
-            break
-        end
-        Gnprev = Gsij
-        nmodes += 1
+                                   rtol=tol, maxevals=maxevals)
+        Gsij += integral[1] 
     end
-
-    return Gsij, nmodes
+    return Gsij
 end
 
 function Gs11Polar(vecRr, vecRs, k, epsf, epsm, Rf, nmax; kzmax=-1.0, tol=1e-4, maxevals=4000)
@@ -554,7 +546,7 @@ function Gs11Polar(vecRr, vecRs, k, epsf, epsm, Rf, nmax; kzmax=-1.0, tol=1e-4, 
             Gs[i, i] = Gs11ijpolar(rr, pr, zr, 
                             rs, ps, zs, 
                             k, epsf, epsm, Rf,
-                            nmax, i, i; kzmax=kzmax, tol=tol, maxevals=maxevals)[1]
+                            nmax, i, i; kzmax=kzmax, tol=tol, maxevals=maxevals)
         end
     elseif zr == zs
         # if zr = zs then 
@@ -563,18 +555,18 @@ function Gs11Polar(vecRr, vecRs, k, epsf, epsm, Rf, nmax; kzmax=-1.0, tol=1e-4, 
         #      |0   0   zz|
         for i = 1:3
             Gs[i, i] = Gs11ijpolar(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf, nmax, i, i;
-             kzmax=kzmax, tol=tol, maxevals=maxevals)[1]
+             kzmax=kzmax, tol=tol, maxevals=maxevals)
         end
         Gs[1, 2] = Gs11ijpolar(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf,nmax, 1, 2; 
-        kzmax=kzmax, tol=tol, maxevals=maxevals)[1]
+        kzmax=kzmax, tol=tol, maxevals=maxevals)
         Gs[2, 1] = Gs11ijpolar(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf,nmax, 2, 1; 
-        kzmax=kzmax, tol=tol, maxevals=maxevals)[1]
+        kzmax=kzmax, tol=tol, maxevals=maxevals)
         
     else
         # calc all components
         for i = 1:3, j = 1:3
             Gs[i, j] = Gs11ijpolar(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf, nmax, i, j; 
-            kzmax=kzmax, tol=tol, maxevals=maxevals)[1]
+            kzmax=kzmax, tol=tol, maxevals=maxevals)
         end
     end
 
@@ -634,21 +626,13 @@ function Gs11ijpolarRadModes(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf, nMaxMode
     k1 = sqrt(epsm) * k        
     rel = 0.0
     Gsij = 0. # Green's tensor component
-    nmodes = 0 # number of considered 'n' modes
-    Gnprev = 0. # previous, it sums from 0 to nmax-1; when nmax = 0 Gnprev = 0
 
     for n = 0:nMaxModeOrder
         Gsij += quadgk(x -> iGs11ij(x, rr, pr, zr, rs, ps, zs, 
                                    k, epsf, epsm, Rf, n, i, j), -k1, k1; rtol=tol, maxevals=maxevals)[1]
-        rel = abs(abs(Gsij) - abs(Gnprev)) / abs(Gsij)
-        if rel < tol
-            break
-        end
-        Gnprev = Gsij
-        nmodes += 1
     end
 
-    return Gsij, nmodes
+    return Gsij
 end
 
 
@@ -674,7 +658,7 @@ function Gs11PolarRadModes(vecRr, vecRs, k, epsf, epsm, Rf, nmax; tol=1e-4, maxe
             Gs[i, i] = Gs11ijpolarRadModes(rr, pr, zr, 
                         rs, ps, zs, 
                         k, epsf, epsm, Rf,
-                        nmax, i, i; tol=tol, maxevals=maxevals)[1]
+                        nmax, i, i; tol=tol, maxevals=maxevals)
         end
     elseif zr == zs
         # if zr = zs then 
@@ -683,17 +667,17 @@ function Gs11PolarRadModes(vecRr, vecRs, k, epsf, epsm, Rf, nmax; tol=1e-4, maxe
         #      |0   0   zz|
         for i = 1:3
             Gs[i, i] = Gs11ijpolarRadModes(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf, nmax, i, i;
-             tol=tol, maxevals=maxevals)[1]
+             tol=tol, maxevals=maxevals)
         end
         Gs[1, 2] = Gs11ijpolarRadModes(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf,nmax, 1, 2;
-         tol=tol, maxevals=maxevals)[1]
+         tol=tol, maxevals=maxevals)
         Gs[2, 1] = Gs11ijpolarRadModes(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf,nmax, 2, 1;
-         tol=tol, maxevals=maxevals)[1]
+         tol=tol, maxevals=maxevals)
     else
         # calc all components
         for i = 1:3, j = 1:3
             Gs[i, j] = Gs11ijpolarRadModes(rr, pr, zr, rs, ps, zs, k, epsf, epsm, Rf, nmax, i, j;
-             tol=tol, maxevals=maxevals)[1]
+             tol=tol, maxevals=maxevals)
         end
     end
 
